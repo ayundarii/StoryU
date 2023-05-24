@@ -67,13 +67,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun navigateToHome() {
         findNavController().navigate(
-            R.id.action_loginFragment_to_homeFragment
+            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         )
     }
 
     private fun navigateToRegister() {
         findNavController().navigate(
-            R.id.action_loginFragment_to_registerFragment
+            LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
         )
     }
 

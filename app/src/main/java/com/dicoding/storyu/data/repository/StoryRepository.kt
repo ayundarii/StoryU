@@ -14,4 +14,8 @@ class StoryRepository(
         return dataSource.getStories().flowOn(Dispatchers.IO)
     }
 
+    suspend fun getStoryDetail(id: String): Flow<ApiResponse<Story>> {
+        return dataSource.getStoryDetail(id).flowOn(Dispatchers.IO)
+    }
+
 }

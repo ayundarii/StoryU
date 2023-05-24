@@ -28,4 +28,17 @@ class StoryDataSource(
         }
     }
 
+    suspend fun getStoryDetail(id: String): Flow<ApiResponse<Story>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.getStoryDetail(id)
+
+                emit(ApiResponse.Success(response.story))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
 }

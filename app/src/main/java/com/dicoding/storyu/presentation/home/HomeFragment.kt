@@ -3,6 +3,7 @@ package com.dicoding.storyu.presentation.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
@@ -17,7 +18,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val listStoriesAdapter: ListStoriesAdapter by lazy {
         ListStoriesAdapter {
-            //navigateToDetail(it)
+            navigateToDetail(it)
         }
     }
 
@@ -66,6 +67,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
+    }
+
+    private fun navigateToDetail(id: String) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                id
+            )
+        )
     }
 
 }
