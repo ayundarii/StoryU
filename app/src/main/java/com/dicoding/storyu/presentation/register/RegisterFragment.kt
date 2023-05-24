@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.dicoding.storyu.R
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.databinding.FragmentRegisterBinding
@@ -34,7 +33,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             }
 
             tvLogin.setOnClickListener {
-                navigateToLogin()
+                navigateToLogin(false)
             }
         }
 
@@ -50,7 +49,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             when (response) {
 
                 is ApiResponse.Success -> {
-                    binding.root.showSnackBar("Account successfully created")
+                    navigateToLogin(true)
                 }
 
                 is ApiResponse.Error -> {
@@ -68,10 +67,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         }
     }
 
-    private fun navigateToLogin() {
-        findNavController().navigate(
-            RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-        )
+    private fun navigateToLogin(isRegistrationSuccessful: Boolean) {
+        val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment(isRegistrationSuccessful)
+        findNavController().navigate(action)
     }
 
 }

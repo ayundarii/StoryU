@@ -8,6 +8,7 @@ import com.dicoding.storyu.R
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.databinding.FragmentLoginBinding
+import com.dicoding.storyu.presentation.detail.DetailFragmentArgs
 
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -15,6 +16,8 @@ import timber.log.Timber
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel: LoginViewModel by inject()
+
+    private var isRegistrationSuccessful = false
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -25,6 +28,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initUI() {
+        if(isRegistrationSuccessful) binding.root.showSnackBar("Account successfully created, go and login.")
+
         binding.apply {
             loginButton.setOnClickListener {
                 val email = edLoginEmail.text.toString()
@@ -38,6 +43,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
+    override fun initIntent() {
+        val safeArgs = arguments?.let { LoginFragmentArgs.fromBundle(it) }
+        isRegistrationSuccessful = safeArgs?.isRegistrationSuccessful ?: false
+    }
+
     override fun initProcess() {
     }
 
@@ -47,6 +57,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             when (response) {
 
                 is ApiResponse.Success -> {
+                    isRegistrationSuccessful = false
                     navigateToHome()
                 }
 

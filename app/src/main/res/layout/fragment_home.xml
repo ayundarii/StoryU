@@ -41,4 +41,15 @@
         app:layout_constraintTop_toBottomOf="@id/appBar"
         tools:listitem="@layout/item_story" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddStory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
