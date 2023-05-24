@@ -8,9 +8,7 @@ import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(
-    private val repository: UserRepository
-    ): ViewModel() {
+class RegisterViewModel(private val repository: UserRepository): ViewModel() {
 
     val registerResult: LiveData<ApiResponse<String>> by lazy { _registerResult }
     private val _registerResult = MutableLiveData<ApiResponse<String>>()

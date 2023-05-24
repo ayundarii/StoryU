@@ -24,6 +24,12 @@ class UserDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val response = service.register(request)
+
+                if (response.error) {
+                    emit(ApiResponse.Error(response.message))
+                    return@flow
+                }
+
                 emit(ApiResponse.Success("SUCCESS : $response"))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.message.toString()))
@@ -42,6 +48,12 @@ class UserDataSource(
                     response.data.token,
                     response.data.id)
                 reloadModule()
+
+                if (response.error) {
+                    emit(ApiResponse.Error(response.message))
+                    return@flow
+                }
+
                 emit(ApiResponse.Success("SUCCESS : $response"))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.message.toString()))
