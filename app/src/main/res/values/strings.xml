@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">StoryU</string>
+    <string name="title">Sharing Stories, Connecting Hearts</string>
+    <string name="login_message">Welcome to StoryU! Start sharing your story now!</string>
+    <string name="register_message">Make an account now to share your story!</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="description">Description</string>
+    <string name="hint_name"><font size="12">Insert Your Name here...</font></string>
+    <string name="hint_email"><font size="12">Insert Email here...</font></string>
+    <string name="hint_password"><font size="12">Insert Password here...</font></string>
+    <string name="account_login">Already have an account?</string>
+    <string name="account_register">Don\'t have an account yet?</string>
+    <string name="password_length_error">Password must be at least 8 characters</string>
+    <string name="register">Register</string>
+</resources>
