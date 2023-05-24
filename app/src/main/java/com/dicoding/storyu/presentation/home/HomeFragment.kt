@@ -24,15 +24,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun initUI() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initProcess() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initObservers() {
-        TODO("Not yet implemented")
+
     }
 
 }

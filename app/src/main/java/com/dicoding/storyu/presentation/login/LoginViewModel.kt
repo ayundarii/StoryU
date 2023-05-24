@@ -20,7 +20,9 @@ class LoginViewModel(
         password: String,
     ) {
         viewModelScope.launch {
-            repository.login(email, password)
+            repository.login(
+                email,
+                password )
                 .collect {
                     _loginResult.postValue(it)
                 }

@@ -29,9 +29,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             loginButton.setOnClickListener {
                 val email = edLoginEmail.text.toString()
                 val password = edLoginPassword.text.toString()
-                viewModel.login(
-                    email,
-                    password )
+                viewModel.login(email, password)
+            }
+
+            tvRegister.setOnClickListener {
+                navigateToRegister()
             }
         }
     }
@@ -45,7 +47,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             when (response) {
 
                 is ApiResponse.Success -> {
-                    binding.root.showSnackBar("Login Success")
                     navigateToHome()
                 }
 
@@ -67,6 +68,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun navigateToHome() {
         findNavController().navigate(
             R.id.action_loginFragment_to_homeFragment
+        )
+    }
+
+    private fun navigateToRegister() {
+        findNavController().navigate(
+            R.id.action_loginFragment_to_registerFragment
         )
     }
 

@@ -3,6 +3,7 @@ package com.dicoding.storyu
 import android.app.Application
 import com.dicoding.storyu.di.networkModule
 import com.dicoding.storyu.di.preferenceModule
+import com.dicoding.storyu.di.sourceModule
 import com.dicoding.storyu.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,9 +23,9 @@ class BaseApp : Application() {
                 listOf(
                     viewModelModule,
                     networkModule,
-                    preferenceModule
+                    preferenceModule,
+                    sourceModule
                 )
-
             )
         }
     }
