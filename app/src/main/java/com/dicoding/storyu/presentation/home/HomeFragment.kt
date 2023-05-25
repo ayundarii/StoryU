@@ -46,11 +46,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
             toolbar.setOnMenuItemClickListener {
                     menuItem ->
-                //logout not working
                 when (menuItem.itemId) {
                     R.id.action_logout -> {
+                        viewModel.storiesResult.removeObservers(this@HomeFragment)
+                        Timber.d("removing observer")
                         preference.clearAllPreferences()
+                        Timber.d("clearing preference")
                         navigateToLogin()
+                        Timber.d("navigating to login")
                         true
                     }
                     else -> false

@@ -7,8 +7,10 @@ import androidx.navigation.fragment.findNavController
 import com.dicoding.storyu.R
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
+import com.dicoding.storyu.data.network.response.LoginResponse
 import com.dicoding.storyu.databinding.FragmentLoginBinding
 import com.dicoding.storyu.presentation.detail.DetailFragmentArgs
+import com.dicoding.storyu.utils.observeOnce
 
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -28,6 +30,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initUI() {
+        Timber.d("LoginFragment onViewCreated")
         if(isRegistrationSuccessful) binding.root.showSnackBar("Account successfully created, go and login.")
 
         binding.apply {
@@ -52,11 +55,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.loginResult.observe(viewLifecycleOwner){ response ->
+        viewModel.loginResult.observe(viewLifecycleOwner) { response: ApiResponse<String> ->
             Timber.d("Response is $response")
             when (response) {
 
                 is ApiResponse.Success -> {
+                    Timber.d("success")
                     isRegistrationSuccessful = false
                     navigateToHome()
                 }
@@ -77,6 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun navigateToHome() {
+        Timber.d("going to home")
         findNavController().navigate(
             LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         )

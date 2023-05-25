@@ -56,6 +56,8 @@
         android:drawableRight="@drawable/ic_email"
         android:ems="10"
         android:hint="@string/hint_email"
+        android:background="@drawable/ed_style"
+        android:padding="8dp"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="@+id/tvPassword"
         app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
@@ -76,8 +78,11 @@
         android:layout_marginTop="4dp"
         android:drawableRight="@drawable/ic_lock"
         android:ems="10"
+        android:background="@drawable/ed_style"
+        android:padding="8dp"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPassword" />

@@ -6,6 +6,7 @@ import com.dicoding.storyu.data.source.StoryDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import java.io.File
 
 class StoryRepository(
     private val dataSource: StoryDataSource
@@ -16,6 +17,20 @@ class StoryRepository(
 
     suspend fun getStoryDetail(id: String): Flow<ApiResponse<Story>> {
         return dataSource.getStoryDetail(id).flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addStory(
+        photo: File,
+        description: String,
+        latitude: Float? = null,
+        longitude: Float? = null
+    ): Flow<ApiResponse<String>> {
+        return dataSource.addStory(
+            photo,
+            description,
+            latitude,
+            longitude
+        ).flowOn(Dispatchers.IO)
     }
 
 }

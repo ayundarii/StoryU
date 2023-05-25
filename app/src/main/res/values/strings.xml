@@ -19,4 +19,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_created_at">Created at :</string>
     <string name="date">date</string>
+    <string name="action_img_gallery">Gallery</string>
+    <string name="action_img_camera">Camera</string>
+    <string name="action_upload">Upload</string>
 </resources>
