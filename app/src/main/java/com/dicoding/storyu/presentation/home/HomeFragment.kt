@@ -72,15 +72,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when (response) {
 
                 is ApiResponse.Success -> {
+                    hideLoadingDialog()
                     listStoriesAdapter.setData(response.data)
                 }
 
                 is ApiResponse.Error -> {
+                    hideLoadingDialog()
                     binding.root.showSnackBar("Can't get stories.")
                 }
 
                 is ApiResponse.Loading -> {
-
+                    showLoadingDialog()
                 }
 
                 is ApiResponse.Empty -> {

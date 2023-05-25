@@ -49,6 +49,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             Timber.d("Response is $response")
             when (response) {
                 is ApiResponse.Success -> {
+                    hideLoadingDialog()
                     binding.apply {
                         tvNameDetail.text = response.data.name
                         tvCreatedAt.text = displayTime(response.data.createdAt)
@@ -60,14 +61,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                 }
 
                 is ApiResponse.Error -> {
+                    hideLoadingDialog()
                     binding.root.showSnackBar(response.errorMessage)
                 }
 
                 is ApiResponse.Loading -> {
-
+                    showLoadingDialog()
                 }
 
-                is ApiResponse.Empty -> {}
+                is ApiResponse.Empty -> {
+                    binding.root.showSnackBar("There is no stories found.")
+                }
             }
         }
     }

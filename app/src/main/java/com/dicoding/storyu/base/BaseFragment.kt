@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.dicoding.storyu.base.custom_view.CustomLoadingDialog
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding!!
+    private lateinit var loadingDialog: CustomLoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +28,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        loadingDialog = CustomLoadingDialog(requireContext())
         initIntent()
         initUI()
         initActions()
@@ -63,5 +66,12 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
                 snackbar.dismiss()
             }
         }.show()
+    }
+
+    open fun showLoadingDialog() {
+        loadingDialog.showDialog()
+    }
+    open fun hideLoadingDialog() {
+        loadingDialog.dismissDialog()
     }
 }

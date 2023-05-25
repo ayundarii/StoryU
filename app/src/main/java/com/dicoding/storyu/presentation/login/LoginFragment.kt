@@ -61,16 +61,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
                 is ApiResponse.Success -> {
                     Timber.d("success")
+                    hideLoadingDialog()
                     isRegistrationSuccessful = false
                     navigateToHome()
                 }
 
                 is ApiResponse.Error -> {
+                    hideLoadingDialog()
                     binding.root.showSnackBar("Check your email and password")
                 }
 
                 is ApiResponse.Loading -> {
-
+                    showLoadingDialog()
                 }
 
                 is ApiResponse.Empty -> {

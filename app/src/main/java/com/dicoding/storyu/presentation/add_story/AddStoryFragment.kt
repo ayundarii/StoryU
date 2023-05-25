@@ -5,19 +5,22 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.databinding.FragmentAddStoryBinding
-import com.dicoding.storyu.presentation.home.HomeFragmentDirections
+import com.dicoding.storyu.utils.constant.createCustomTempFile
 import com.dicoding.storyu.utils.constant.uriToFile
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -26,7 +29,7 @@ import java.io.File
 class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     private val viewModel: AddStoryViewModel by inject()
-
+    private lateinit var currentPhotoPath: String
     private var getFile: File? = null
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -43,11 +46,11 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
 
         binding.apply {
             toolBar.setNavigationOnClickListener {
-
+                navigateToHome()
             }
 
             binding.btnCamera.setOnClickListener {
-                binding.root.showSnackBar("Cannot do this yet.")
+                startTakePhoto()
             }
 
             binding.btnGallery.setOnClickListener {
@@ -76,30 +79,28 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
     }
 
     private fun requestPermissions() {
-        val permissions = Manifest.permission.READ_EXTERNAL_STORAGE
-        val requestCode = REQUEST_CODE_PERMISSIONS
-        val shouldShowRequestPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-            requireActivity(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        val permissions = REQUIRED_PERMISSIONS
+        permissions.any {
+            ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), it)
+        }
 
-        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                startGallery()
-            } else {
-                if (!shouldShowRequestPermissionRationale) {
-                    binding.root.showSnackBar("Request permission not granted.")
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                val allGranted = permissions.all { it.value }
+                if (allGranted) {
+                    binding.root.showSnackBar("Permission granted.")
                 } else {
-                    binding.root.showSnackBar("Request permission not granted.")
+                    if (!permissions.entries.all {
+                            ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), it.key)
+                    }) {
+                        binding.root.showSnackBar("Required permissions not granted.")
+                    } else {
+                        binding.root.showSnackBar("Required permissions not granted.")
+                    }
                 }
             }
-        }
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            binding.root.showSnackBar("Permission granted.")
-        } else {
-            requestPermissionLauncher.launch(permissions)
-        }
+        requestPermissionLauncher.launch(permissions)
     }
 
     private fun startGallery() {
@@ -108,6 +109,22 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
         intent.type = "image/*"
         val chooser = Intent.createChooser(intent, "Choose a Picture")
         launcherIntentGallery.launch(chooser)
+    }
+
+    private fun startTakePhoto() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        launcherIntentCamera.launch(intent)
+
+        createCustomTempFile(requireActivity().application).also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                requireContext(),
+                AUTHORITY,
+                it
+            )
+            currentPhotoPath = it.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            launcherIntentCamera.launch(intent)
+        }
     }
 
     private val launcherIntentGallery = registerForActivityResult(
@@ -124,6 +141,18 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
         }
     }
 
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
+            val myFile = File(currentPhotoPath)
+            myFile.let { file ->
+                getFile = file
+                binding.imgAddStory.setImageBitmap(BitmapFactory.decodeFile(file.path))
+            }
+        }
+    }
+
     override fun initProcess() {
 
     }
@@ -133,15 +162,17 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
             Timber.d("Response is $response")
             when (response) {
                 is ApiResponse.Success -> {
+                    hideLoadingDialog()
                     navigateToHome()
                 }
 
                 is ApiResponse.Error -> {
+                    hideLoadingDialog()
                     binding.root.showSnackBar(response.errorMessage)
                 }
 
                 is ApiResponse.Loading -> {
-
+                    showLoadingDialog()
                 }
 
                 is ApiResponse.Empty -> {}
@@ -158,8 +189,10 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
 
 
     companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE)
+        private const val AUTHORITY = "com.dicoding.storyu"
     }
 
 }

@@ -6,9 +6,4 @@ object AppConstants {
     const val KEY_TOKEN = "key.token"
     const val KEY_USER_ID = "key.user.id"
     const val AUTHORIZATION = "Authorization"
-
-    val LOCATION_PERMISSION = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
 }
