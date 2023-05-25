@@ -1,16 +1,13 @@
 package com.dicoding.storyu.presentation.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.navigation.fragment.findNavController
-import com.dicoding.storyu.R
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.data.network.response.ApiResponse
-import com.dicoding.storyu.data.network.response.LoginResponse
 import com.dicoding.storyu.databinding.FragmentLoginBinding
-import com.dicoding.storyu.presentation.detail.DetailFragmentArgs
-import com.dicoding.storyu.utils.observeOnce
 
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -44,6 +41,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 navigateToRegister()
             }
         }
+
+        playAnimation()
     }
 
     override fun initIntent() {
@@ -94,5 +93,34 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
         )
     }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(500)
+        val tvTitle = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(500)
+        val tvMessage = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(500)
+        val tvEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(500)
+        val emailEditTextLayout = ObjectAnimator.ofFloat(binding.edLoginEmail, View.ALPHA, 1f).setDuration(500)
+        val tvPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
+        val passwordEditTextLayout = ObjectAnimator.ofFloat(binding.edLoginPassword, View.ALPHA, 1f).setDuration(500)
+        val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500)
+        val tvRegisterMessage = ObjectAnimator.ofFloat(binding.tvRegisterMessage, View.ALPHA, 1f).setDuration(500)
+        val tvRegister = ObjectAnimator.ofFloat(binding.tvRegister, View.ALPHA, 1f).setDuration(500)
+
+        val together = AnimatorSet().apply {
+            playTogether(tvRegisterMessage, tvRegister)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(logo, tvTitle, tvMessage, tvEmail, emailEditTextLayout, tvPassword, passwordEditTextLayout, login, together)
+            startDelay = 500
+        }.start()
+    }
+
 
 }

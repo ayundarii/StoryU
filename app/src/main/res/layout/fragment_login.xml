@@ -25,6 +25,7 @@
         android:text="@string/title"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/login_message"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/email"
+        android:alpha="0"
         app:layout_constraintStart_toStartOf="@+id/ed_login_email"
         app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
 
@@ -59,6 +62,7 @@
         android:background="@drawable/ed_style"
         android:padding="8dp"
         android:inputType="textEmailAddress"
+        android:alpha="0"
         app:layout_constraintStart_toStartOf="@+id/tvPassword"
         app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
@@ -68,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/password"
+        android:alpha="0"
         app:layout_constraintStart_toStartOf="@+id/ed_login_password"
         app:layout_constraintTop_toBottomOf="@+id/ed_login_email" />
 
@@ -82,7 +87,7 @@
         android:padding="8dp"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
-
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPassword" />
@@ -94,6 +99,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/button_shape"
         android:text="@string/login"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_login_password" />
@@ -114,6 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/account_register"
+            android:alpha="0"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="602dp" />
 
@@ -124,6 +131,7 @@
             android:layout_marginStart="4dp"
             android:textStyle="bold"
             android:text="@string/register"
+            android:alpha="0"
             tools:layout_editor_absoluteX="214dp"
             tools:layout_editor_absoluteY="604dp" />
 
