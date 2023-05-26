@@ -44,31 +44,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
     override fun initProcess() {
-
     }
 
     override fun initObservers() {
-        viewModel.registerResult.observe(viewLifecycleOwner){ response ->
-            Timber.d("Response is $response")
-            when (response) {
-
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    navigateToLogin(true)
-                }
-
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    binding.root.showSnackBar("Check your name, email and password")
-                }
-
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-
-                is ApiResponse.Empty -> {}
-            }
-        }
     }
 
     private fun navigateToLogin(isRegistrationSuccessful: Boolean) {

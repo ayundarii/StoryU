@@ -10,8 +10,12 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository): ViewModel() {
 
-    val loginResult: LiveData<ApiResponse<String>> by lazy { _loginResult }
     private val _loginResult = MutableLiveData<ApiResponse<String>>()
+    val loginResult: LiveData<ApiResponse<String>> = _loginResult
+
+    fun resetLoginResult() {
+        _loginResult.value = ApiResponse.Empty
+    }
 
     fun login(
         email: String,

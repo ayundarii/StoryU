@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/purple_500</item>
+        <item name="android:titleTextAppearance">@style/CustomToolbarTitleStyle</item>
+    </style>
+
+    <style name="CustomToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

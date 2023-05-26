@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import com.dicoding.storyu.base.BaseFragment
-import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.databinding.FragmentLoginBinding
 
 import org.koin.android.ext.android.inject
@@ -54,35 +53,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.loginResult.observe(viewLifecycleOwner) { response: ApiResponse<String> ->
-            Timber.d("Response is $response")
-            when (response) {
-
-                is ApiResponse.Success -> {
-                    Timber.d("success")
-                    hideLoadingDialog()
-                    isRegistrationSuccessful = false
-                    navigateToHome()
-                }
-
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    binding.root.showSnackBar("Check your email and password")
-                }
-
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-
-                is ApiResponse.Empty -> {
-
-                }
-            }
-        }
     }
 
+
     private fun navigateToHome() {
-        Timber.d("going to home")
+        Timber.d("Navigating to home")
         findNavController().navigate(
             LoginFragmentDirections.actionLoginFragmentToHomeFragment()
         )

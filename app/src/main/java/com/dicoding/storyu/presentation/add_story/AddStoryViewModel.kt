@@ -11,8 +11,12 @@ import java.io.File
 
 class AddStoryViewModel(private val repository: StoryRepository): ViewModel() {
 
-    val addStoryResult: LiveData<ApiResponse<String>> by lazy { _addStoryResult }
     private val _addStoryResult = MutableLiveData<ApiResponse<String>>()
+    val addStoryResult: LiveData<ApiResponse<String>> = _addStoryResult
+
+    fun resetAddStoryResult() {
+        _addStoryResult.value = ApiResponse.Empty
+    }
 
     fun addStory(
         photo: File,

@@ -10,8 +10,12 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val repository: UserRepository): ViewModel() {
 
-    val registerResult: LiveData<ApiResponse<String>> by lazy { _registerResult }
     private val _registerResult = MutableLiveData<ApiResponse<String>>()
+    val registerResult: LiveData<ApiResponse<String>> = _registerResult
+
+    fun resetRegisterResult() {
+        _registerResult.value = ApiResponse.Empty
+    }
 
     fun register(
         name: String,

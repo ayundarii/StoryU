@@ -3,7 +3,6 @@ package com.dicoding.storyu.presentation.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.storyu.R
@@ -49,11 +48,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 when (menuItem.itemId) {
                     R.id.action_logout -> {
                         viewModel.storiesResult.removeObservers(this@HomeFragment)
-                        Timber.d("removing observer")
                         preference.clearAllPreferences()
-                        Timber.d("clearing preference")
                         navigateToLogin()
-                        Timber.d("navigating to login")
                         true
                     }
                     else -> false

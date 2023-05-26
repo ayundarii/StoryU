@@ -158,27 +158,6 @@ class AddStoryFragment : BaseFragment<FragmentAddStoryBinding>(), ActivityCompat
     }
 
     override fun initObservers() {
-        viewModel.addStoryResult.observe(viewLifecycleOwner) {response ->
-            Timber.d("Response is $response")
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    navigateToHome()
-                }
-
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    binding.root.showSnackBar(response.errorMessage)
-                }
-
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-
-                is ApiResponse.Empty -> {}
-            }
-        }
-
     }
 
     private fun navigateToHome() {
