@@ -13,10 +13,8 @@
     <string name="hint_password"><font size="12">Insert Password here...</font></string>
     <string name="account_login">Already have an account?</string>
     <string name="account_register">Don\'t have an account yet?</string>
-    <string name="password_length_error">Password must be at least 8 characters</string>
     <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_created_at">Created at :</string>
     <string name="date">date</string>
     <string name="action_img_gallery">Gallery</string>
