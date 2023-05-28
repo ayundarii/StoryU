@@ -5,7 +5,7 @@ StoryU is an Android Kotlin project developed as part of the Dicoding Intermedia
 1. Add Story: Users can create and add their own stories to the app.
 2. Google Maps Integration: Stories with location information are displayed on a map with markers.
 3. Paging3 with Remote Mediator: The app uses Paging3 to display a LiveData stream of stories, fetching data from the server in a paginated manner.
-4. 4. Testing for Paging3: Unit tests are implemented to verify the functionality of Paging3.
+4. Testing for Paging3: Unit tests are implemented to verify the functionality of Paging3.
 
 ## Technologies and Frameworks Used
 1. Kotlin
