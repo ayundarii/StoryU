@@ -1,21 +1,26 @@
 package com.dicoding.storyu
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import com.dicoding.storyu.base.custom_view.CustomLoadingDialog
+import androidx.navigation.ui.setupWithNavController
 import com.dicoding.storyu.data.network.response.ApiResponse
+import com.dicoding.storyu.databinding.ActivityMainBinding
 import com.dicoding.storyu.presentation.add_story.AddStoryViewModel
 import com.dicoding.storyu.presentation.login.LoginViewModel
 import com.dicoding.storyu.presentation.register.RegisterViewModel
+import com.dicoding.storyu.utils.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private val loginViewModel: LoginViewModel by inject()
     private val registerViewModel: RegisterViewModel by inject()
@@ -29,10 +34,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
+        val navHostBottomBar =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navControllerBottomBar = navHostBottomBar.navController
+        binding.bottomNavigation.setupWithNavController(navControllerBottomBar)
+        navControllerBottomBar.addOnDestinationChangedListener { _, currentDestination, _ ->
+            if (isMainPage(currentDestination)) {
+                binding.bottomAppBar.visibility = View.VISIBLE
+            } else {
+                binding.bottomAppBar.visibility = View.GONE
+            }
+        }
 
         loginResultObserver = Observer { response: ApiResponse<String> ->
             Timber.d("Response is $response")
@@ -47,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 is ApiResponse.Error -> {
                     Timber.d("error")
-                    fragmentView?.showSnackBar("Check your username and password.")
+                    fragmentView?.showSnackBar(response.errorMessage)
                 }
 
                 is ApiResponse.Loading -> {
@@ -74,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
                 is ApiResponse.Error -> {
                     Timber.d("error")
-                    fragmentView?.showSnackBar("Make sure all data is proper")
+                    fragmentView?.showSnackBar(response.errorMessage)
                 }
 
                 is ApiResponse.Loading -> {
@@ -119,6 +138,12 @@ class MainActivity : AppCompatActivity() {
         loginViewModel.loginResult.observe(this, loginResultObserver)
         registerViewModel.registerResult.observe(this, registerResultObserver)
         addStoryViewModel.addStoryResult.observe(this, addStoryResultObserver)
+    }
+
+    private fun isMainPage(currentDestination: NavDestination): Boolean {
+        return currentDestination.id == R.id.homeFragment
+                || currentDestination.id == R.id.mapsFragment
+                || currentDestination.id == R.id.profileFragment
     }
 
     private fun View.showSnackBar(message: String) {

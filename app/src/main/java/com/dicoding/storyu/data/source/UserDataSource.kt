@@ -46,7 +46,8 @@ class UserDataSource(
                 val response = service.login(request)
                 preference.setCurrentUser(
                     response.data.token,
-                    response.data.id)
+                    response.data.id,
+                    response.data.name)
                 reloadModule()
 
                 if (response.error) {

@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Unselected state -->
+    <item android:color="@color/gray" android:state_checked="false" />
+    <!-- Selected state -->
+    <item android:color="@color/purple_500" android:state_checked="true" />
+</selector>

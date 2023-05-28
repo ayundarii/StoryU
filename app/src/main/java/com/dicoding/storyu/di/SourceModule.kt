@@ -10,5 +10,5 @@ val sourceModule = module {
     factory { UserRepository(get()) }
     single { UserDataSource(get(), get()) }
     factory { StoryRepository(get()) }
-    single { StoryDataSource(get()) }
+    single { StoryDataSource(get(), get()) }
 }

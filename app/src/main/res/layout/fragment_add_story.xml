@@ -16,16 +16,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.92"
+        android:orientation="horizontal" />
+
+    <Switch
+        android:id="@+id/switch_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:text="Your Location "
+        app:layout_constraintBottom_toTopOf="@+id/img_add_story"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
     <ImageView
         android:id="@+id/img_add_story"
         android:layout_width="320dp"
         android:layout_height="240dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+        app:layout_constraintTop_toBottomOf="@id/switch_location" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -38,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img_add_story">
 
         <Button
-            android:id="@+id/btn_camera"
+            android:id="@+id/btnCamera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -46,7 +64,7 @@
             android:text="@string/action_img_camera" />
 
         <Button
-            android:id="@+id/btn_gallery"
+            android:id="@+id/btnGallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
@@ -58,7 +76,7 @@
         android:id="@+id/ed_add_description"
         android:layout_width="320dp"
         android:layout_height="160dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/description"
         android:background="@drawable/ed_style"
@@ -70,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
-        android:id="@+id/btn_upload"
+        android:id="@+id/btnUpload"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -79,5 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_add_description" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

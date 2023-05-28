@@ -1,9 +1,9 @@
 package com.dicoding.storyu.presentation.detail
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.dicoding.storyu.base.BaseFragment
@@ -28,9 +28,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     }
 
     override fun initUI() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         binding.apply {
-            toolBar.setNavigationOnClickListener{
-                navigateToHome()
+            toolBar.setNavigationOnClickListener {
+                navigateBack()
             }
         }
     }
@@ -76,13 +77,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         }
     }
 
-    private fun navigateToHome(){
+    private fun navigateBack() {
         findNavController().navigate(
             DetailFragmentDirections.actionDetailFragmentToHomeFragment()
         )
     }
 
-    private fun displayTime(createdAt: String): String{
+    private fun displayTime(createdAt: String): String {
         val date = createdAt.substring(0, 10)
         val time = createdAt.substring(12, 19)
 

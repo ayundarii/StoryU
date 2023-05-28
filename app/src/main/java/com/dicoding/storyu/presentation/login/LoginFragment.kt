@@ -3,11 +3,13 @@ package com.dicoding.storyu.presentation.login
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.dicoding.storyu.base.BaseFragment
 import com.dicoding.storyu.databinding.FragmentLoginBinding
-
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -26,6 +28,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initUI() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         Timber.d("LoginFragment onViewCreated")
         if(isRegistrationSuccessful) binding.root.showSnackBar("Account successfully created, go and login.")
 
@@ -52,16 +55,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun initProcess() {
     }
 
-    override fun initObservers() {
-    }
-
-
-    private fun navigateToHome() {
-        Timber.d("Navigating to home")
-        findNavController().navigate(
-            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-        )
-    }
+    override fun initObservers() {}
 
     private fun navigateToRegister() {
         findNavController().navigate(

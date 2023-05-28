@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.dicoding.storyu.base.BaseFragment
-import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.databinding.FragmentRegisterBinding
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
@@ -23,10 +22,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): FragmentRegisterBinding {
-       return FragmentRegisterBinding.inflate(inflater, container, false)
+        return FragmentRegisterBinding.inflate(inflater, container, false)
     }
 
     override fun initUI() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         binding.apply {
             registerButton.setOnClickListener {
                 val name = edRegisterName.text.toString()
@@ -50,7 +50,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
     }
 
     private fun navigateToLogin(isRegistrationSuccessful: Boolean) {
-        val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment(isRegistrationSuccessful)
+        val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment(
+            isRegistrationSuccessful
+        )
         findNavController().navigate(action)
     }
 
@@ -63,15 +65,21 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
         val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(500)
         val tvTitle = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(500)
-        val tvMessage = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(500)
+        val tvMessage =
+            ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(500)
         val tvName = ObjectAnimator.ofFloat(binding.tvName, View.ALPHA, 1f).setDuration(500)
-        val nameEditTextLayout = ObjectAnimator.ofFloat(binding.edRegisterName, View.ALPHA, 1f).setDuration(500)
+        val nameEditTextLayout =
+            ObjectAnimator.ofFloat(binding.edRegisterName, View.ALPHA, 1f).setDuration(500)
         val tvEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(500)
-        val emailEditTextLayout = ObjectAnimator.ofFloat(binding.edRegisterEmail, View.ALPHA, 1f).setDuration(500)
+        val emailEditTextLayout =
+            ObjectAnimator.ofFloat(binding.edRegisterEmail, View.ALPHA, 1f).setDuration(500)
         val tvPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
-        val passwordEditTextLayout = ObjectAnimator.ofFloat(binding.edRegisterPassword, View.ALPHA, 1f).setDuration(500)
-        val register = ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500)
-        val tvLoginMessage = ObjectAnimator.ofFloat(binding.tvLoginMessage, View.ALPHA, 1f).setDuration(500)
+        val passwordEditTextLayout =
+            ObjectAnimator.ofFloat(binding.edRegisterPassword, View.ALPHA, 1f).setDuration(500)
+        val register =
+            ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500)
+        val tvLoginMessage =
+            ObjectAnimator.ofFloat(binding.tvLoginMessage, View.ALPHA, 1f).setDuration(500)
         val tvLogin = ObjectAnimator.ofFloat(binding.tvLogin, View.ALPHA, 1f).setDuration(500)
 
         val together = AnimatorSet().apply {
@@ -79,7 +87,19 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         }
 
         AnimatorSet().apply {
-            playSequentially(logo, tvTitle, tvMessage, tvName, nameEditTextLayout, tvEmail, emailEditTextLayout, tvPassword, passwordEditTextLayout, register, together)
+            playSequentially(
+                logo,
+                tvTitle,
+                tvMessage,
+                tvName,
+                nameEditTextLayout,
+                tvEmail,
+                emailEditTextLayout,
+                tvPassword,
+                passwordEditTextLayout,
+                register,
+                together
+            )
             startDelay = 500
         }.start()
     }

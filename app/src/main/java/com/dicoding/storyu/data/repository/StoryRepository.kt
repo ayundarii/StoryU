@@ -1,5 +1,7 @@
 package com.dicoding.storyu.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.dicoding.storyu.data.model.Story
 import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.data.source.StoryDataSource
@@ -11,8 +13,12 @@ import java.io.File
 class StoryRepository(
     private val dataSource: StoryDataSource
 ){
-    suspend fun getStories(): Flow<ApiResponse<List<Story>>> {
-        return dataSource.getStories().flowOn(Dispatchers.IO)
+    fun getPagingStories(): LiveData<PagingData<Story>> {
+        return dataSource.getPagingStories()
+    }
+
+    suspend fun getStories(isLocationAvailable: Boolean): Flow<ApiResponse<List<Story>>> {
+        return dataSource.getStories(isLocationAvailable).flowOn(Dispatchers.IO)
     }
 
     suspend fun getStoryDetail(id: String): Flow<ApiResponse<Story>> {

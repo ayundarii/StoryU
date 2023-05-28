@@ -1,8 +1,12 @@
 package com.dicoding.storyu.data.source
 
+import androidx.lifecycle.LiveData
+import androidx.paging.*
+import com.dicoding.storyu.data.local.database.StoryUDatabase
 import com.dicoding.storyu.data.model.Story
 import com.dicoding.storyu.data.network.response.ApiResponse
 import com.dicoding.storyu.data.network.services.StoryService
+import com.dicoding.storyu.presentation.mediator.StoryRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,16 +17,34 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class StoryDataSource(
+    private val database: StoryUDatabase,
     private val service: StoryService
 ) {
-    suspend fun getStories(): Flow<ApiResponse<List<Story>>> {
+    fun getPagingStories(): LiveData<PagingData<Story>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 3
+            ),
+            remoteMediator = StoryRemoteMediator(database, service),
+            pagingSourceFactory = {
+                database.getStoryDao().getAllStories()
+            }
+        ).liveData
+    }
+    suspend fun getStories(isLocationAvailable: Boolean = false): Flow<ApiResponse<List<Story>>> {
         return flow {
             try {
                 emit(ApiResponse.Loading)
-                val response = service.getStories()
+                val response = service.getStories(location = if(isLocationAvailable) 1 else 0)
 
                 if (response.listStory.isEmpty()) {
                     emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                if (response.error) {
+                    emit(ApiResponse.Error(response.message))
                     return@flow
                 }
 
